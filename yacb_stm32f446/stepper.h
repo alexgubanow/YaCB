@@ -1,17 +1,18 @@
 #pragma once
 #include "PWM.h"
+#include "pin.h"
 
-int drvSTP[6]
+const int drvSTP[6]
 {
-	pwmEnum::pwm13, pwmEnum::pwm14, pwmEnum::pwm15, pwmEnum::pwm16, pwmEnum::pwm17, pwmEnum::pwm18
+	pwmEnum::drvSTP1, pwmEnum::drvSTP2, pwmEnum::drvSTP3, pwmEnum::drvSTP4, pwmEnum::drvSTP5, pwmEnum::drvSTP6
 };
-int drvDIR[6]
+const int drvDIR[6]
 {
-	pwmEnum::pwm13, pwmEnum::pwm14, pwmEnum::pwm15, pwmEnum::pwm16, pwmEnum::pwm17, pwmEnum::pwm18
+	pinEnum::drvDIR1, pinEnum::drvDIR2, pinEnum::drvDIR3, pinEnum::drvDIR4, pinEnum::drvDIR5, pinEnum::drvDIR6
 };
-int drvEN[6]
+const int drvEN[6]
 {
-	pwmEnum::pwm13, pwmEnum::pwm14, pwmEnum::pwm15, pwmEnum::pwm16, pwmEnum::pwm17, pwmEnum::pwm18
+	pinEnum::drvEN1, pinEnum::drvEN2, pinEnum::drvEN3, pinEnum::drvEN4, pinEnum::drvEN5, pinEnum::drvEN6
 };
 enum drvOutput
 {
@@ -21,10 +22,12 @@ enum drvOutput
 class Stepper
 {
 public:
-	Stepper(drvOutput drvNo, const PWM* pwms[]);
+	Stepper(drvOutput drvNo, const PWM* pwms[], const pin* pins[]);
 	virtual ~Stepper();
 
 private:
 	const PWM* pwmOut;
+	const pin* dir;
+	const pin* en;
 
 };

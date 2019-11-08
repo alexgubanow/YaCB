@@ -2,12 +2,15 @@
 #include "gpio.h"
 
 
-enum pinsEnum
+enum pinEnum
 {
-	PD12, PD13, PD14, PD15, pinsEnumMax
+	PD12, PD13, PD14, PD15,
+	drvDIR1, drvDIR2, drvDIR3, drvDIR4, drvDIR5, drvDIR6,
+	drvEN1, drvEN2, drvEN3, drvEN4, drvEN5, drvEN6,
+	pinEnumMax
 };
 
-typedef struct 
+typedef struct
 {
 	GPIO_TypeDef* port;
 	unsigned int pin;
@@ -21,5 +24,3 @@ public:
 private:
 	pinStruct_t* pinStruct;
 };
-
-pin* pins[pinsEnumMax] = { new pin(new pinStruct_t{GPIOD, 12}) };
