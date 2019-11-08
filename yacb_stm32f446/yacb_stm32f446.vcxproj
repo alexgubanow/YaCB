@@ -74,7 +74,7 @@
     <ClCompile Include="hardware\stepper.cpp" />
     <ClCompile Include="hardware\tsens.cpp" />
     <ClCompile Include="hwConf.cpp" />
-    <ClCompile Include="main.c" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="perif\adc.c" />
     <ClCompile Include="perif\gpio.c" />
     <ClCompile Include="perif\i2c.c" />

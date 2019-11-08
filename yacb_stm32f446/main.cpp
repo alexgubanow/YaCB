@@ -28,6 +28,7 @@
 #include "perif/usart.h"
 #include "usb/usb_device.h"
 #include "perif/gpio.h"
+#include "hwConf.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -54,9 +55,14 @@
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
-
+#ifdef __cplusplus
+extern "C"
+#endif
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+#ifdef __cplusplus
+extern "C"
+#endif
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -108,7 +114,7 @@ int main(void)
   MX_SPI3_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
-
+  HwConf* hardw = new HwConf();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -129,7 +135,9 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
-
+#ifdef __cplusplus
+extern "C"
+#endif
 /**
   * @brief System Clock Configuration
   * @retval None

@@ -846,9 +846,6 @@
     <ClCompile Include="stm32f4xx_it.c">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os1.c">
       <Filter>Source files\Device-specific files\FreeRTOS</Filter>
     </ClCompile>
@@ -914,6 +911,9 @@
     </ClCompile>
     <ClCompile Include="usb\usbd_desc.c">
       <Filter>Source files\usb</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
