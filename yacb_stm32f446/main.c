@@ -21,13 +21,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
-#include "adc.h"
-#include "i2c.h"
-#include "spi.h"
-#include "tim.h"
-#include "usart.h"
-#include "usb_device.h"
-#include "gpio.h"
+#include "perif/adc.h"
+#include "perif/i2c.h"
+#include "perif/spi.h"
+#include "perif/tim.h"
+#include "perif/usart.h"
+#include "usb/usb_device.h"
+#include "perif/gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */

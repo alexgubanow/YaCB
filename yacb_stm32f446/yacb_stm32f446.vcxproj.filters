@@ -46,6 +46,24 @@
     <Filter Include="Header files\Device-specific files\USB Device">
       <UniqueIdentifier>{bd1f7797-29c7-4b47-bf93-c95671426931}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\perif">
+      <UniqueIdentifier>{6c66d009-c344-404a-923a-014b508469a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\hardware">
+      <UniqueIdentifier>{af18fa83-fa8c-450e-9590-a3ec734c681a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\usb">
+      <UniqueIdentifier>{44d9d27f-29d1-4205-932d-02eb6cee18c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\perif">
+      <UniqueIdentifier>{c717b9fd-00cd-40a6-93b3-86343a5d2af1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\hardware">
+      <UniqueIdentifier>{177f0f75-78c9-444d-a7da-a39dd3660664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\usb">
+      <UniqueIdentifier>{cd060972-88ee-4265-b4c0-c1d7b93b6ecb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yacb_stm32f446.cpp">
@@ -693,28 +711,7 @@
     <None Include="stm32.xml">
       <Filter>VisualGDB settings</Filter>
     </None>
-    <ClCompile Include="stepper.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="cmdParser.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="endstop.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="fan.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="heater.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="PWM.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="tsens.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="hardware.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
     <None Include="$(BSP_ROOT)\FreeRTOS\Source\readme.txt">
@@ -840,46 +837,13 @@
     <ClCompile Include="hwConf.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="adc.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="freertos.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="gpio.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="i2c.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="spi.c">
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="stm32f4xx_hal_timebase_tim.c">
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="stm32f4xx_it.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="tim.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="usart.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="usb_device.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="usbd_conf.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="usbd_custom_hid_if.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="usbd_desc.c">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="pin.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
@@ -897,30 +861,63 @@
     <ClInclude Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h">
       <Filter>Header files\Device-specific files\FreeRTOS</Filter>
     </ClInclude>
+    <ClCompile Include="perif\adc.c">
+      <Filter>Source files\perif</Filter>
+    </ClCompile>
+    <ClCompile Include="perif\gpio.c">
+      <Filter>Source files\perif</Filter>
+    </ClCompile>
+    <ClCompile Include="perif\i2c.c">
+      <Filter>Source files\perif</Filter>
+    </ClCompile>
+    <ClCompile Include="perif\spi.c">
+      <Filter>Source files\perif</Filter>
+    </ClCompile>
+    <ClCompile Include="perif\tim.c">
+      <Filter>Source files\perif</Filter>
+    </ClCompile>
+    <ClCompile Include="perif\usart.c">
+      <Filter>Source files\perif</Filter>
+    </ClCompile>
+    <ClCompile Include="hardware\endstop.cpp">
+      <Filter>Source files\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="hardware\fan.cpp">
+      <Filter>Source files\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="hardware\hardware.cpp">
+      <Filter>Source files\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="hardware\heater.cpp">
+      <Filter>Source files\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="hardware\pin.cpp">
+      <Filter>Source files\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="hardware\PWM.cpp">
+      <Filter>Source files\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="hardware\stepper.cpp">
+      <Filter>Source files\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="hardware\tsens.cpp">
+      <Filter>Source files\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="usb\usb_device.c">
+      <Filter>Source files\usb</Filter>
+    </ClCompile>
+    <ClCompile Include="usb\usbd_conf.c">
+      <Filter>Source files\usb</Filter>
+    </ClCompile>
+    <ClCompile Include="usb\usbd_custom_hid_if.c">
+      <Filter>Source files\usb</Filter>
+    </ClCompile>
+    <ClCompile Include="usb\usbd_desc.c">
+      <Filter>Source files\usb</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stepper.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="cmdParser.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="endstop.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="fan.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="heater.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="tsens.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="hardware.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="PWM.h">
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="sysConf.h">
@@ -929,47 +926,68 @@
     <ClInclude Include="hwConf.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="adc.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="FreeRTOSConfig.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="gpio.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="i2c.h">
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="spi.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="stm32f4xx_it.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="tim.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="perif\adc.h">
+      <Filter>Header files\perif</Filter>
     </ClInclude>
-    <ClInclude Include="usart.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="perif\gpio.h">
+      <Filter>Header files\perif</Filter>
     </ClInclude>
-    <ClInclude Include="usb_device.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="perif\i2c.h">
+      <Filter>Header files\perif</Filter>
     </ClInclude>
-    <ClInclude Include="usbd_conf.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="perif\spi.h">
+      <Filter>Header files\perif</Filter>
     </ClInclude>
-    <ClInclude Include="usbd_custom_hid_if.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="perif\tim.h">
+      <Filter>Header files\perif</Filter>
     </ClInclude>
-    <ClInclude Include="usbd_desc.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="perif\usart.h">
+      <Filter>Header files\perif</Filter>
     </ClInclude>
-    <ClInclude Include="pin.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="hardware\endstop.h">
+      <Filter>Header files\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="hardware\fan.h">
+      <Filter>Header files\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="hardware\hardware.h">
+      <Filter>Header files\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="hardware\heater.h">
+      <Filter>Header files\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="hardware\pin.h">
+      <Filter>Header files\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="hardware\PWM.h">
+      <Filter>Header files\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="hardware\stepper.h">
+      <Filter>Header files\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="hardware\tsens.h">
+      <Filter>Header files\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="usb\usb_device.h">
+      <Filter>Header files\usb</Filter>
+    </ClInclude>
+    <ClInclude Include="usb\usbd_conf.h">
+      <Filter>Header files\usb</Filter>
+    </ClInclude>
+    <ClInclude Include="usb\usbd_custom_hid_if.h">
+      <Filter>Header files\usb</Filter>
+    </ClInclude>
+    <ClInclude Include="usb\usbd_desc.h">
+      <Filter>Header files\usb</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

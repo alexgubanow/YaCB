@@ -1,8 +1,8 @@
 #pragma once
-#include <PWM.h>
-#include "pin.h"
 #include <vector>
-#include <heater.h>
+#include "hardware/PWM.h"
+#include "hardware/pin.h"
+#include "hardware/heater.h"
 
 class HwConf
 {

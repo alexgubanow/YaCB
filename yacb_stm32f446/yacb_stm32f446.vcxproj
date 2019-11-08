@@ -42,7 +42,15 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
     <ClCompile>
       <CPPLanguageStandard>CPP1Z</CPPLanguageStandard>
+      <AdditionalIncludeDirectories>usb;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DEBUG=1;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <AdditionalLinkerInputs>;%(Link.AdditionalLinkerInputs)</AdditionalLinkerInputs>
+      <LibrarySearchDirectories>;%(Link.LibrarySearchDirectories)</LibrarySearchDirectories>
+      <AdditionalLibraryNames>;%(Link.AdditionalLibraryNames)</AdditionalLibraryNames>
+      <LinkerScript />
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
     <ClCompile>
@@ -55,50 +63,56 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="adc.c" />
     <ClCompile Include="cmdParser.cpp" />
-    <ClCompile Include="endstop.cpp" />
-    <ClCompile Include="fan.cpp" />
     <ClCompile Include="freertos.c" />
-    <ClCompile Include="gpio.c" />
-    <ClCompile Include="heater.cpp" />
-    <ClCompile Include="hardware.cpp" />
+    <ClCompile Include="hardware\endstop.cpp" />
+    <ClCompile Include="hardware\fan.cpp" />
+    <ClCompile Include="hardware\hardware.cpp" />
+    <ClCompile Include="hardware\heater.cpp" />
+    <ClCompile Include="hardware\pin.cpp" />
+    <ClCompile Include="hardware\PWM.cpp" />
+    <ClCompile Include="hardware\stepper.cpp" />
+    <ClCompile Include="hardware\tsens.cpp" />
     <ClCompile Include="hwConf.cpp" />
-    <ClCompile Include="i2c.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="pin.cpp" />
-    <ClCompile Include="PWM.cpp" />
-    <ClCompile Include="spi.c" />
-    <ClCompile Include="stepper.cpp" />
+    <ClCompile Include="perif\adc.c" />
+    <ClCompile Include="perif\gpio.c" />
+    <ClCompile Include="perif\i2c.c" />
+    <ClCompile Include="perif\spi.c" />
+    <ClCompile Include="perif\tim.c" />
+    <ClCompile Include="perif\usart.c" />
     <ClCompile Include="stm32f4xx_hal_timebase_tim.c" />
     <ClCompile Include="stm32f4xx_it.c" />
     <ClCompile Include="sysConf.cpp" />
-    <ClCompile Include="tim.c" />
-    <ClCompile Include="tsens.cpp" />
-    <ClCompile Include="usart.c" />
-    <ClCompile Include="usbd_conf.c" />
-    <ClCompile Include="usbd_custom_hid_if.c" />
-    <ClCompile Include="usbd_desc.c" />
-    <ClCompile Include="usb_device.c" />
+    <ClCompile Include="usb\usbd_conf.c" />
+    <ClCompile Include="usb\usbd_custom_hid_if.c" />
+    <ClCompile Include="usb\usbd_desc.c" />
+    <ClCompile Include="usb\usb_device.c" />
     <ClCompile Include="yacb_stm32f446.cpp" />
     <ClCompile Include="system_stm32f4xx.c" />
-    <ClInclude Include="adc.h" />
     <ClInclude Include="FreeRTOSConfig.h" />
-    <ClInclude Include="gpio.h" />
+    <ClInclude Include="hardware\endstop.h" />
+    <ClInclude Include="hardware\fan.h" />
+    <ClInclude Include="hardware\hardware.h" />
+    <ClInclude Include="hardware\heater.h" />
+    <ClInclude Include="hardware\pin.h" />
+    <ClInclude Include="hardware\PWM.h" />
+    <ClInclude Include="hardware\stepper.h" />
+    <ClInclude Include="hardware\tsens.h" />
     <ClInclude Include="hwConf.h" />
-    <ClInclude Include="i2c.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="pin.h" />
-    <ClInclude Include="spi.h" />
+    <ClInclude Include="perif\adc.h" />
+    <ClInclude Include="perif\gpio.h" />
+    <ClInclude Include="perif\i2c.h" />
+    <ClInclude Include="perif\spi.h" />
+    <ClInclude Include="perif\tim.h" />
+    <ClInclude Include="perif\usart.h" />
     <ClInclude Include="stm32f4xx_it.h" />
     <ClInclude Include="sysConf.h" />
-    <ClInclude Include="tim.h" />
-    <ClInclude Include="tsens.h" />
-    <ClInclude Include="usart.h" />
-    <ClInclude Include="usbd_conf.h" />
-    <ClInclude Include="usbd_custom_hid_if.h" />
-    <ClInclude Include="usbd_desc.h" />
-    <ClInclude Include="usb_device.h" />
+    <ClInclude Include="usb\usbd_conf.h" />
+    <ClInclude Include="usb\usbd_custom_hid_if.h" />
+    <ClInclude Include="usb\usbd_desc.h" />
+    <ClInclude Include="usb\usb_device.h" />
     <None Include="stm32.props" />
     <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\StartupFiles\startup_stm32f446xx.c" />
     <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c" />
@@ -189,12 +203,6 @@
     <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_usb.c" />
     <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_utils.c" />
     <ClInclude Include="cmdParser.h" />
-    <ClInclude Include="endstop.h" />
-    <ClInclude Include="fan.h" />
-    <ClInclude Include="heater.h" />
-    <ClInclude Include="hardware.h" />
-    <ClInclude Include="PWM.h" />
-    <ClInclude Include="stepper.h" />
     <ClInclude Include="stm32f4xx_hal_conf.h" />
     <ClInclude Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h" />
     <ClInclude Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_adc.h" />
