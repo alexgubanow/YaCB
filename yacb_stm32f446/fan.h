@@ -4,10 +4,10 @@
 class Fan
 {
 public:
-	Fan(pwmEnum pwmOutput);
+	Fan(pwmEnum pwmOutput, const PWM* pwms[]);
 	virtual ~Fan();
 
 private:
-	PWM* pwmOut;
+	const PWM* pwmOut;
 
 };

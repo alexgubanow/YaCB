@@ -1,6 +1,6 @@
 #include "pin.h"
 
-pin::pin(pinStruct_t _pinStruct)
+pin::pin(pinStruct_t* _pinStruct)
 {
 	pinStruct = _pinStruct;
 }

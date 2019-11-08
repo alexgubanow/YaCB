@@ -4,9 +4,9 @@
 class Heater
 {
 public:
-	Heater(pwmEnum pwmOutput);
+	Heater(pwmEnum pwmOutput, const PWM* pwms[]);
 	virtual ~Heater();
 
 private:
-	PWM* pwmOut;
+	const PWM* pwmOut;
 };

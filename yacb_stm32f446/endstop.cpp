@@ -1,9 +1,1 @@
-#include "stepper.h"
-
-Stepper::Stepper()
-{
-}
-
-Stepper::~Stepper()
-{
-}
+#include "endstop.h"

@@ -1,6 +1,7 @@
 #include "PWM.h"
 
-PWM::PWM(pwmch_t _pwmch)
+
+PWM::PWM(pwmch_t* _pwmch)
 {
 	pwmch = _pwmch;
 }

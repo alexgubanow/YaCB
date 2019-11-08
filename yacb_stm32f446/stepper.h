@@ -21,10 +21,10 @@ enum drvOutput
 class Stepper
 {
 public:
-	Stepper(drvOutput drvNo);
+	Stepper(drvOutput drvNo, const PWM* pwms[]);
 	virtual ~Stepper();
 
 private:
-	PWM* pwmOut;
+	const PWM* pwmOut;
 
 };

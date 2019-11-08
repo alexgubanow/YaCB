@@ -1,9 +1,5 @@
 #pragma once
-//#include "stm32f4xx_hal_tim.h"
 #include <PWM.h>
-#include "tim.h"
-
-
 
 class HwConf
 {
@@ -12,5 +8,6 @@ public:
 	~HwConf();
 
 private:
+	const PWM* pwms[pwmEnum::pwmMax] = { new PWM(new pwmch_t{&htim1, 1}), new PWM(new pwmch_t{&htim1, 1}) };
 
 };

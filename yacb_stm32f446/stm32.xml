@@ -53,7 +53,7 @@
       </KeyValue>
       <KeyValue>
         <Key>com.sysprogs.bspoptions.stm32.freertos.cmsis</Key>
-        <Value>CMSIS_RTOS</Value>
+        <Value>CMSIS_RTOS_V2</Value>
       </KeyValue>
       <KeyValue>
         <Key>com.sysprogs.stm32.legacy_hal_src</Key>
