@@ -1,12 +1,13 @@
 #pragma once
 #include "PWM.h"
 
-class Fan : public PWM
+class Fan
 {
 public:
-	Fan();
-	~Fan();
+	Fan(pwmEnum pwmOutput);
+	virtual ~Fan();
 
 private:
+	PWM* pwmOut;
 
 };

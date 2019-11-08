@@ -1,13 +1,26 @@
 #pragma once
-#include "stm32f4xx_hal_tim.h"
+#include "tim.h"
+
+
+enum pwmEnum
+{
+	pwm1, pwm2, pwm3, pwm4, pwm5, pwm6, pwm7, pwm8, pwm9, pwm10, pwm11, pwm12, pwm13, pwm14, pwm15, pwm16, pwm17, pwm18, pwmMax
+};
+
+typedef struct 
+{
+	TIM_HandleTypeDef* tim;
+	unsigned int ch;
+}pwmch_t;
 
 class PWM
 {
 public:
-	PWM();
-	~PWM();
-	PWM(TIM_HandleTypeDef * _pchan);
+	virtual ~PWM();
+	PWM(pwmch_t pwmch);
 
 private:
-	TIM_HandleTypeDef* pchan;
+	pwmch_t pwmch;
 };
+
+PWM pwms[pwmMax] = { PWM(pwmch_t{&htim1, 1}) };

@@ -1,12 +1,12 @@
 #pragma once
 #include "PWM.h"
 
-class Heater : public PWM
+class Heater
 {
 public:
-	Heater();
-	~Heater();
+	Heater(pwmEnum pwmOutput);
+	virtual ~Heater();
 
 private:
-
+	PWM* pwmOut;
 };

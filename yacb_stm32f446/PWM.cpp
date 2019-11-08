@@ -1,14 +1,10 @@
 #include "PWM.h"
 
-PWM::PWM()
+PWM::PWM(pwmch_t _pwmch)
 {
+	pwmch = _pwmch;
 }
 
 PWM::~PWM()
 {
-}
-
-PWM::PWM(TIM_HandleTypeDef* _pchan)
-{
-	pchan = _pchan;
 }

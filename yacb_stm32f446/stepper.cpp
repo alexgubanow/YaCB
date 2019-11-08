@@ -1,7 +1,9 @@
 #include "stepper.h"
 
-Stepper::Stepper()
+Stepper::Stepper(drvOutput drvNo)
 {
+	//need to check is it already taken
+	pwmOut = &(pwms[drvSTP[drvNo]]);
 }
 
 Stepper::~Stepper()
