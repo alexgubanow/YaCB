@@ -6,17 +6,20 @@ namespace libusbTransport
 {
     public class UsbTransport
     {
-
-        ConcurrentQueue<byte[]> Cmds;
-        private bool TxAllowed;
+        private ConcurrentQueue<byte[]> Cmds;
         private int cmdTimeout = 100;
+
+        UsbTransport()
+        {
+            Cmds = new ConcurrentQueue<byte[]>();
+        }
 
         public void TxUSB()
         {
-            while (TxAllowed)
+            Stopwatch sw = new Stopwatch();
+            while (true)
             {
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
+                sw.Restart();
                 while (Cmds.IsEmpty && sw.ElapsedMilliseconds < cmdTimeout) { }
                 if (Cmds.TryDequeue(out byte[] retValue))
                 {
@@ -25,6 +28,8 @@ namespace libusbTransport
             }
         }
         private void SendOverUSB(byte[] cmd)
-        { }
+        {
+            Cmds.Enqueue(cmd);
+        }
     }
 }

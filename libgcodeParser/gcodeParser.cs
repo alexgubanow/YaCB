@@ -1,4 +1,4 @@
-﻿using Gcode.Utils.Entity;
+﻿using Gcode.Entity;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 

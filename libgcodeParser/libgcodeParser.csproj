@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Gcode.Entity" Version="0.1.65" />
+  </ItemGroup>
+
 </Project>
