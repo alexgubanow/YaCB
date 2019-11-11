@@ -14,22 +14,19 @@ namespace libgcodeParser
                 if (gcodeFrame.X.HasValue)
                 {
                     //some how got speed and steps from planner
-                    float speed = 100f;
-                    uint steps = 123;
-                    FloatIntCmd_t cmdTX = new FloatIntCmd_t
+                    float v = 100f;
+                    uint x = 123;
+                    MovCmd_t cmdTX = new MovCmd_t
                     {
-                        opcode = OpcodeEnum.x,
-                        subcode = 0,
-                        floatVal = speed,
-                        uintVal = steps
+                        cw = new controlWord_t() { opcode = OpcodeEnum.g },
+                        drv1 = new axes_t() { freq = v, steps = x }
                     };
                     listOfTXbuffs.Add(PackIntoByteArr(cmdTX));
                 }
             }
             return listOfTXbuffs;
         }
-
-        private static byte[] PackIntoByteArr(FloatIntCmd_t cmdTX)
+        private static byte[] PackIntoByteArr(MovCmd_t cmdTX)
         {
             int sizeOfBuffer = Marshal.SizeOf(cmdTX); //suppouse to be 16bytes
             byte[] buffer = new byte[sizeOfBuffer];

@@ -2,9 +2,9 @@
 {
     public partial class GcodeParser
     {
-        private enum OpcodeEnum : byte
+        private enum OpcodeEnum
         {
-            heat, x, y, z, e, m, sys
+            heat, g, m, sys
         }
     }
 }
