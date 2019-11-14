@@ -52,21 +52,6 @@ function [x, v, a] = calcStages(prevX, nowX, nextX, initV, maxV, maxA, dt)
 end
 
 
-
-
-function [x,v,a] = calcT2stage(initX, initV, maxX, dt)
-a(1) = 0;
-v(1) = initV;
-x(1) = initX + v(1) * dt;
-i = 2;
-while(x(i - 1) < maxX)
-    a(i) = 0;
-    v(i) = v(i - 1);
-    x(i) = x(i - 1) + v(i) * dt;
-    i = i + 1;
-end
-end
-
 function [x,v,a] = zeroMovStage(initX, counts)
 a = zeros(counts, 1);
 v = zeros(counts, 1);

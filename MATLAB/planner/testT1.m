@@ -1,26 +1,48 @@
 close all; clc; clear;
-p1 = 0;
-p2 = 10;
-[x, v, a, t] = calcT1Stage(p1, p2, 2, 20, 0.0001, 0);
-figure(1);
+curr = 0;
+dst = 10;
+dt = 0.0001;
+dir = sign(dst - curr);
+[x1, v1, distToTrav] = calcAcStage(curr, (dst / 2), 2 * dir, 3 * dir, dt);
+
+if (distToTrav > 0)
+    [x2, v2] = calcT2stage(x1(end), v1(end), x1(end) + (distToTrav * dir), dt);
+end
 hold on
-plot(t, v);
-% figure(2);
-% plot([t1 t3], [v1 fliplr(v1)]);
+figure(1);
+v3 = fliplr(v1);
+x3 = zeros(1, length(v3));
+x = x1;
+v = v1;
+if(exist('x2', 'var') > 0)
+    lastX = x2(end);
+    x = [x1 x2];
+    v = [v1 v2];
+end
+x3(1) = x(end) + v3(1) * dt;
+for i=2:length(v3)
+    x3(i) = x3(i - 1) + v3(i) * dt;
+end
+plot([v v3]);
+figure(2);
+plot([x x3]);
 % figure(3);
 % plot([t1 t3], [a1 fliplr(a1)]);
 
-function [v, a] = calcT1T3Stage(maxX, maxV, maxA, dt)
-a(1) = maxA;
-v(1) = a(1) * dt;
+function [x, v, distToTrav] = calcAcStage(curr, dst, maxV, maxA, dt)
+distToTrav = sqrt((dst - curr)^2);
+aT1 = maxA;
+v(1) = aT1 * dt;
+x(1) = curr + v(1) * dt;
 i = 2;
-while(v(i - 1) < maxV && x(i - 1) < maxX)
-    a(i) = a(i - 1);
-    v(i) = v(i - 1) + a(i) * dt;
+while(v(i - 1) < maxV && distToTrav > 0)
+    v(i) = v(i - 1) + aT1 * dt;
+    x(i) = x(i - 1) + v(i) * dt;
+    distToTrav = distToTrav - v(i) * dt;
     i = i + 1;
 end
-a(end)=[];
 v(end)=[];
+x(end)=[];
 end
 
 
