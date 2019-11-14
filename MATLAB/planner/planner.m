@@ -1,6 +1,6 @@
 close all; clc; clear;
 %wpts = rand([3,100])*100;
-wpts = [0, 10, 20, 10];
+wpts = [0, 10, 20, 10, 20, 30];
 dt = 0.0001;
 %[x, v, a, tvec, pp] = trapveltraj(wpts, 501,'PeakVelocity',5,'Acceleration',300);
 [x, v] = Vplanner(wpts, 2, 3, dt);

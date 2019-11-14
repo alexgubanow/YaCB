@@ -1,20 +1,14 @@
-function [x, v, a, t] = calcT3Stage(initX, maxX, maxV, maxA, dt, endT)
-maxV = 0 - maxV;
-maxA = 0 - maxA;
-a(1) = maxA;
-v(1) = a(1) * dt;
+function [x, v] = calcT3Stage(initX, initV, targetX, maxA, dt)
+distToTrav = sqrt((targetX - initX)^2);
+v(1) = initV + maxA * dt;
 x(1) = initX + v(1) * dt;
-t(1) = endT;
 i = 2;
-while(v(i - 1) > maxV && x(i - 1) > maxX)
-    a(i) = a(i - 1);
-    v(i) = v(i - 1) + a(i) * dt;
+while(abs(v(i - 1)) > 0 && distToTrav > 0)
+    v(i) = v(i - 1) + maxA * dt;
     x(i) = x(i - 1) + v(i) * dt;
-    t(i) = t(i - 1) + dt;
+    distToTrav = distToTrav - abs(v(i)) * dt;
     i = i + 1;
 end
-a(end)=[];
 v(end)=[];
 x(end)=[];
-t(end)=[];
 end
