@@ -1,6 +1,4 @@
 function [x,v,a] = Vplanner(wpts, maxV, maxA, dt)
-segV = zeros(length(wpts) - 1,1);
-
 for p = 2 : length(wpts) - 1
     direction = sign(wpts(p) - wpts(p - 1));
     if(direction == 0)
@@ -9,46 +7,109 @@ for p = 2 : length(wpts) - 1
         [xZero, vZero, aZero] = zeroMovStage(wpts(p - 1), 0);
         x = [x xZero]; v = [v vZero]; a = [a aZero];
     else
-        [xS, vS, aS] = calcStages(wpts(p - 1), wpts(p), wpts(p + 1), initV, maxV * direction, maxA * direction, dt);
-        x = [x xS]; v = [v vS]; a = [a aS];
+        initV = 0;
+        if(exist('v', 'var'))
+            initV = v(end);
+        end        
+        [xS, vS] = calcStages(wpts(p - 1), wpts(p), wpts(p + 1), initV, maxV * direction, maxA * direction, dt);
+        if(exist('x', 'var') == 0)
+            x = xS; v = vS;
+        else
+            x = [x xS]; v = [v vS];
+        end  
     end    
 end
 
-end
+%     directionLast = sign(wpts(end) - wpts(end - 1));
+%     if(direction == 0)
+%         %in future need to provide sync between axes, by delaying some
+%         %some counts of zero move stage will be > 0
+%         [xZero, vZero, aZero] = zeroMovStage(wpts(end - 1), 0);
+%         x = [x xZero]; v = [v vZero]; a = [a aZero];
+%     else
+%         initV = 0;
+%         if(exist('v', 'var'))
+%             initV = v(end);
+%         end        
+%         [xS, vS] = calcLastStage(wpts(end - 1), wpts(end), initV, maxV * direction, maxA * direction, dt);
+%         if(exist('x', 'var') == 0)
+%             x = xS; v = vS;
+%         else
+%             x = [x xS]; v = [v vS];
+%         end  
+%     end
 
-function [x, v, a] = calcStages(prevX, nowX, nextX, initV, maxV, maxA, dt)
-    T2stageStart = prevX;
-    accelSteps = 0;
+end
+function [x, v] = calcStages(prevX, nowX, nextX, initV, maxV, maxA, dt)
+    dir = sign(nowX - prevX);
+    nextDir = sign(nextX - nowX);
+    distToTrav = sqrt(((nowX) - prevX)^2);
+    if(dir ~= nextDir)
+        distToTrav = sqrt(((nowX / 2) - prevX)^2);
+    end
     %if last velocity of prev segment is zero
     %we are or deaccel prev or at start point
     if(initV == 0)
         %how long we can accel
         %calc accel stage
-        [xT1, vT1, aT1] = calcT1Stage(prevX, maxX, maxV, maxA, dt);
-        x = [x xT1]; v = [v vT1]; a = [a aT1];
-        T2stageStart = xT1(length(xT1));
-        accelSteps = length(xT1);
+        [x1, v1, distToTrav] = calcT1Stage(prevX, distToTrav, maxV * dir, maxA * dir, dt);
+        x = x1; v = v1;
     end
-    nextDir = sign(wpts(p + 1) - wpts(p));
+    if (distToTrav > 0)
+        if(exist('v', 'var'))
+            initV = v(end);
+        end
+        initX = prevX;
+        if(exist('x', 'var'))
+            initX = x(end);
+        end        
+        [x2, v2] = calcT2stage(initX, initV, initX + (distToTrav * dir), dt);         
+        if(exist('v', 'var'))
+            v = [v v2];
+        else
+            v = v2;
+        end
+        if(exist('x', 'var'))
+            x = [x x2];
+        else
+            x = x2;
+        end
+    end
+    
     %calc deaccel if needed
-    T2stageEnd = nowX;
-    xT3 = 0; vT3= 0; aT3 = 0;
-    if(nextDir < 0)
-        %find deaccel time, to make it in balance with accel
-        deaccelCounts = 
-        %calc deaccel
-        [xT3, vT3, aT3] = calcT3Stage(nowX, maxV, maxA, dt);
-        T2stageEnd = xT3(length(xT3));
+    if(dir ~= nextDir)
+        v3 = fliplr(v1);
+        x3 = zeros(1, length(v3));
+        x3(1) = x(end) + v3(1) * dt;
+        for i=2:length(v3)
+            x3(i) = x3(i - 1) + v3(i) * dt;
+        end
+        x = [x x3]; v = [v v3];
     end
-    %how long we could keep curr velocity
-    if(T2stageStart < T2stageEnd)
-        %fill zero accel stage
-        [xT2,vT2,aT2] = calcT2stage(T2stageStart, v(T2stageStart), T2stageEnd, dt);
-        x = [x xT2]; v = [v vT2]; a = [a aT2];
+end
+
+function [x, v] = calcLastStage(prevX, nowX, initV, maxV, maxA, dt)
+    dir = sign(nowX - prevX);
+    distToTrav = sqrt(((nowX / 2) - prevX)^2);
+    %if last velocity of prev segment is zero
+    %we are or deaccel prev or at start point
+    if(initV == 0)
+        %how long we can accel
+        %calc accel stage
+        [x1, v1, distToTrav] = calcT1Stage(prevX, distToTrav, maxV * dir, maxA * dir, dt);
+        x = x1; v = v1;
     end
-    if(nextDir < 0)
-        x = [x xT3]; v = [v vT3]; a = [a aT3];
+    if (distToTrav > 0)
+        [x2, v2] = calcT2stage(x1(end), v1(end), x1(end) + (distToTrav * dir), dt);
+        x = [x x2]; v = [v v2];
     end
+    v3 = fliplr(v1);
+    x3 = zeros(1, length(v3));
+    x3(1) = x(end) + v3(1) * dt;
+    for i=2:length(v3)
+        x3(i) = x3(i - 1) + v3(i) * dt;
+    end
+    x = [x x3]; v = [v v3];
 end
 
 

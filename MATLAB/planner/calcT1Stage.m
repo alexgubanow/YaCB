@@ -1,18 +1,14 @@
-function [x, v, a, t] = calcT1Stage(initX, maxX, maxV, maxA, dt, endT)
-a(1) = maxA;
-v(1) = a(1) * dt;
+function [x, v, distToTrav] = calcT1Stage(initX, distToTrav, maxV, maxA, dt)
+aT1 = maxA;
+v(1) = aT1 * dt;
 x(1) = initX + v(1) * dt;
-t(1) = endT;
 i = 2;
-while(v(i - 1) < maxV && x(i - 1) < maxX)
-    a(i) = a(i - 1);
-    v(i) = v(i - 1) + a(i) * dt;
+while(v(i - 1) < maxV && distToTrav > 0)
+    v(i) = v(i - 1) + aT1 * dt;
     x(i) = x(i - 1) + v(i) * dt;
-    t(i) = t(i - 1) + dt;
+    distToTrav = distToTrav - v(i) * dt;
     i = i + 1;
 end
-a(end)=[];
 v(end)=[];
 x(end)=[];
-t(end)=[];
 end
