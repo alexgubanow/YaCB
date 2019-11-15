@@ -1,11 +1,11 @@
 close all; clc; clear;
 maxV = 6;
 maxA = 1;
-curr = 0;
-dst = 18;
+curr = 100;
+dst = 82;
 dt = 0.00001;
 dir = sign(dst - curr);
-[x, v] = calcT3Stage(curr, maxV, dst - curr, 0-(maxA * dir), dt);
+[x, v] = calcT3Stage(curr, maxV * dir, dst - curr, 0-(maxA * dir), dt);
 x(end - 2)
 x(end - 1)
 x(end)

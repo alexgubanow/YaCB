@@ -1,9 +1,11 @@
 close all; clc; clear;
-maxV = 3;
-curr = 0;
-dst = 1000;
+maxV = 6;
+curr = 82;
+dst = 18;
 dt = 0.00001;
-[x2, v2] = calcT2stage(curr, maxV, dst, dt);
+distToTrav = abs(dst - curr);
+dir = sign(dst - curr);
+[x2, v2] = calcT2stage(curr, maxV * dir, abs(dst - curr), dt);
 x2(end - 2)
 x2(end - 1)
 x2(end)

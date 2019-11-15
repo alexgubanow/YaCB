@@ -1,9 +1,9 @@
 close all; clc; clear;
 maxV = 6;
 maxA = 1;
-curr = 18;
+curr = 100;
 dst = 0;
-dt = 0.00001;
+dt = 0.0001;
 dir = sign(dst - curr);
 [x1, v1, distToTrav] = calcT1Stage(curr, dst, maxV * dir, maxA * dir, dt);
 distToTrav
