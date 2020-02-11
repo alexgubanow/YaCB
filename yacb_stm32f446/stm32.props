@@ -9,14 +9,14 @@
 <!-- In order to build this project manually (outside VisualGDB), please provide TOOLCHAIN_ROOT, BSP_ROOT, EFP_BASE and TESTFW_BASE variables via Environment or Make command line -->
 	<ItemDefinitionGroup>
 		<ClCompile>
-			<PreprocessorDefinitions>ARM_MATH_CM4;flash_layout;STM32F446VE;USE_FREERTOS;STM32F446xx;USE_USB_FS;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>ARM_MATH_CM4;flash_layout;STM32F446VE;USE_FREERTOS;STM32F446xx;USE_HAL_DRIVER;USE_USB_FS;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
 			<AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);$(ProjectDir);$(BSP_ROOT)/FreeRTOS/Source/CMSIS_RTOS_V2;$(BSP_ROOT)/FreeRTOS/Source/Include;$(BSP_ROOT)/FreeRTOS/Source/Portable/gcc/ARM_CM3;$(BSP_ROOT)/STM32F4xxxx/STM32F4xx_HAL_Driver/Inc;$(BSP_ROOT)/STM32F4xxxx/STM32F4xx_HAL_Driver/Inc/Legacy;$(BSP_ROOT)/STM32F4xxxx/CMSIS_HAL/Core/Include;$(BSP_ROOT)/STM32F4xxxx/CMSIS_HAL/Device/ST/STM32F4xx/Include;$(BSP_ROOT)/STM32F4xxxx/CMSIS_HAL/Include;$(BSP_ROOT)/STM32F4xxxx/CMSIS_HAL/RTOS2/Include;$(BSP_ROOT)/STM32F4xxxx/STM32_USB_Device_Library/Core/Inc;$(BSP_ROOT)/STM32F4xxxx/STM32_USB_Device_Library/Class/CustomHID/Inc</AdditionalIncludeDirectories>
 		</ClCompile>
 	</ItemDefinitionGroup>
 	<ItemDefinitionGroup>
 		<Link>
 			<LinkerScript Condition="'%(Link.LinkerScript)' == ''">$(BSP_ROOT)/STM32F4xxxx/LinkerScripts/STM32F446VE_flash.lds</LinkerScript>
-			<AdditionalOptions>--specs=nano.specs -u _printf_float --specs=nosys.specs %(Link.AdditionalOptions)</AdditionalOptions>
+			<AdditionalOptions>--specs=nano.specs -u _printf_float $$com.sysprogs.toolchainoptions.arm.syscallspecs$$ %(Link.AdditionalOptions)</AdditionalOptions>
 		</Link>
 	</ItemDefinitionGroup>
 	<PropertyGroup>
