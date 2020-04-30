@@ -87,37 +87,14 @@
   * @brief Private variables.
   * @{
   */
-enum {
-    IN_REPORT_SIZE = 12,   // 1 byte report id + 11-byte report
-    OUT_REPORT_SIZE = 10,  // 1 byte report id + 9-byte report
-};
+
 /** Usb HID report descriptor. */
 __ALIGN_BEGIN static uint8_t CUSTOM_HID_ReportDesc_FS[USBD_CUSTOM_HID_REPORT_DESC_SIZE] __ALIGN_END =
 {
-    0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
-  0x09, 0x00,                    // USAGE (Undefined)
-  0xa1, 0x01,                    // COLLECTION (Application)
-
-  0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
-  0x26, 0xff, 0x00,              //   LOGICAL_MAXIMUM (255)
-
-  // OUT report
-
-  0x85, 0x01,                    //   REPORT_ID (2)
-  0x75, 0x08,                    //   REPORT_SIZE (8)
-  0x95, OUT_REPORT_SIZE - 1,       //   REPORT_COUNT (this is the byte length)
-  0x09, 0x00,                    //   USAGE (Undefined)
-  0x91, 0x82,                    //   OUTPUT (Data,Var,Abs,Vol)
-  // IN report
-
-  0x85, 0x02,                    //   REPORT_ID (1)
-  0x75, 0x08,                    //   REPORT_SIZE (8)
-  0x95, IN_REPORT_SIZE - 1,        //   REPORT_COUNT (this is the byte length)
-  0x09, 0x00,                    //   USAGE (Undefined)
-  0x81, 0x82,                    //   INPUT (Data,Var,Abs,Vol)
-
-
-  0xc0                           // END_COLLECTION
+  /* USER CODE BEGIN 0 */
+  0x00,
+  /* USER CODE END 0 */
+  0xC0    /*     END_COLLECTION	             */
 };
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */
@@ -190,6 +167,7 @@ static int8_t CUSTOM_HID_DeInit_FS(void)
   return (USBD_OK);
   /* USER CODE END 5 */
 }
+
 /**
   * @brief  Manage the CUSTOM HID class events
   * @param  event_idx: Event index
@@ -199,34 +177,6 @@ static int8_t CUSTOM_HID_DeInit_FS(void)
 static int8_t CUSTOM_HID_OutEvent_FS(uint8_t event_idx, uint8_t state)
 {
   /* USER CODE BEGIN 6 */
-    USBD_CUSTOM_HID_HandleTypeDef* hhid = (USBD_CUSTOM_HID_HandleTypeDef*)hUsbDeviceFS.pClassData;
-
-
-    if (hhid->Report_buf[0] == 1)
-    {
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET);
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_RESET);
-        switch (hhid->Report_buf[1])
-        {
-        case 'R':
-        case 'r':
-            HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
-            break;
-        case 'G':
-        case 'g':
-            HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);
-            break;
-        case 'y':
-        case 'Y':
-            HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_SET);
-            break;
-        default:
-            break;
-        }
-        /*uint8_t report[3] = { 2, 'o','k' };
-        USBD_CUSTOM_HID_SendReport_FS(report, 3);*/
-    }
   return (USBD_OK);
   /* USER CODE END 6 */
 }
@@ -238,12 +188,12 @@ static int8_t CUSTOM_HID_OutEvent_FS(uint8_t event_idx, uint8_t state)
   * @param  len: The report length
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
-
-int8_t USBD_CUSTOM_HID_SendReport_FS(uint8_t *report, uint16_t len)
+/*
+static int8_t USBD_CUSTOM_HID_SendReport_FS(uint8_t *report, uint16_t len)
 {
   return USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, report, len);
 }
-
+*/
 /* USER CODE END 7 */
 
 /* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */

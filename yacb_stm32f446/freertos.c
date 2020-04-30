@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -48,31 +48,47 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-osThreadId_t defaultTaskHandle;
-osThreadId_t heaterTaskHandle;
-osThreadId_t motionTaskHandle;
-osThreadId_t cmdParserTaskHandle;
-osThreadId_t tsenseTaskHandle;
-osThreadId_t respondTaskHandle;
-osMessageQueueId_t motionQueueHandle;
-osMessageQueueId_t heaterQueueHandle;
-osMessageQueueId_t cmdParserQueueHandle;
-osMessageQueueId_t respondQueueHandle;
+osThreadId defaultTaskHandle;
+osThreadId heaterTaskHandle;
+osThreadId motionTaskHandle;
+osThreadId cmdParserTaskHandle;
+osThreadId tsenseTaskHandle;
+osThreadId respondTaskHandle;
+osMessageQId motionQueueHandle;
+osMessageQId heaterQueueHandle;
+osMessageQId cmdParserQueueHandle;
+osMessageQId respondQueueHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void* argument);
-void heaterTask_Handle(void* argument);
-void motionTask_Handle(void* argument);
-void cmdParserTask_Handle(void* argument);
-void tsenseTask_Handle(void* argument);
-void respondTask_Handle(void* argument);
+void StartDefaultTask(void const* argument);
+void heaterTask_Handle(void const* argument);
+void motionTask_Handle(void const* argument);
+void cmdParserTask_Handle(void const* argument);
+void tsenseTask_Handle(void const* argument);
+void respondTask_Handle(void const* argument);
 
 extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+
+/* GetIdleTaskMemory prototype (linked to static allocation support) */
+void vApplicationGetIdleTaskMemory(StaticTask_t** ppxIdleTaskTCBBuffer, StackType_t** ppxIdleTaskStackBuffer, uint32_t* pulIdleTaskStackSize);
+
+/* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
+static StaticTask_t xIdleTaskTCBBuffer;
+static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
+
+void vApplicationGetIdleTaskMemory(StaticTask_t** ppxIdleTaskTCBBuffer, StackType_t** ppxIdleTaskStackBuffer, uint32_t* pulIdleTaskStackSize)
+{
+	*ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+	*ppxIdleTaskStackBuffer = &xIdleStack[0];
+	*pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+	/* place for user code */
+}
+/* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
   * @brief  FreeRTOS initialization
@@ -83,7 +99,6 @@ void MX_FREERTOS_Init(void) {
 	/* USER CODE BEGIN Init */
 
 	/* USER CODE END Init */
-	osKernelInitialize();
 
 	/* USER CODE BEGIN RTOS_MUTEX */
 	/* add mutexes, ... */
@@ -99,28 +114,20 @@ void MX_FREERTOS_Init(void) {
 
 	/* Create the queue(s) */
 	/* definition and creation of motionQueue */
-	const osMessageQueueAttr_t motionQueue_attributes = {
-	  .name = "motionQueue"
-	};
-	motionQueueHandle = osMessageQueueNew(16, sizeof(uint16_t), &motionQueue_attributes);
+	osMessageQDef(motionQueue, 16, uint16_t);
+	motionQueueHandle = osMessageCreate(osMessageQ(motionQueue), NULL);
 
 	/* definition and creation of heaterQueue */
-	const osMessageQueueAttr_t heaterQueue_attributes = {
-	  .name = "heaterQueue"
-	};
-	heaterQueueHandle = osMessageQueueNew(16, sizeof(uint16_t), &heaterQueue_attributes);
+	osMessageQDef(heaterQueue, 16, uint16_t);
+	heaterQueueHandle = osMessageCreate(osMessageQ(heaterQueue), NULL);
 
 	/* definition and creation of cmdParserQueue */
-	const osMessageQueueAttr_t cmdParserQueue_attributes = {
-	  .name = "cmdParserQueue"
-	};
-	cmdParserQueueHandle = osMessageQueueNew(16, sizeof(uint16_t), &cmdParserQueue_attributes);
+	osMessageQDef(cmdParserQueue, 16, uint16_t);
+	cmdParserQueueHandle = osMessageCreate(osMessageQ(cmdParserQueue), NULL);
 
 	/* definition and creation of respondQueue */
-	const osMessageQueueAttr_t respondQueue_attributes = {
-	  .name = "respondQueue"
-	};
-	respondQueueHandle = osMessageQueueNew(16, sizeof(uint16_t), &respondQueue_attributes);
+	osMessageQDef(respondQueue, 16, uint16_t);
+	respondQueueHandle = osMessageCreate(osMessageQ(respondQueue), NULL);
 
 	/* USER CODE BEGIN RTOS_QUEUES */
 	/* add queues, ... */
@@ -128,52 +135,28 @@ void MX_FREERTOS_Init(void) {
 
 	/* Create the thread(s) */
 	/* definition and creation of defaultTask */
-	const osThreadAttr_t defaultTask_attributes = {
-	  .name = "defaultTask",
-	  .priority = (osPriority_t)osPriorityNormal,
-	  .stack_size = 128
-	};
-	defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+	osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+	defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
 	/* definition and creation of heaterTask */
-	const osThreadAttr_t heaterTask_attributes = {
-	  .name = "heaterTask",
-	  .priority = (osPriority_t)osPriorityLow,
-	  .stack_size = 128
-	};
-	heaterTaskHandle = osThreadNew(heaterTask_Handle, NULL, &heaterTask_attributes);
+	osThreadDef(heaterTask, heaterTask_Handle, osPriorityLow, 0, 128);
+	heaterTaskHandle = osThreadCreate(osThread(heaterTask), NULL);
 
 	/* definition and creation of motionTask */
-	const osThreadAttr_t motionTask_attributes = {
-	  .name = "motionTask",
-	  .priority = (osPriority_t)osPriorityRealtime,
-	  .stack_size = 128
-	};
-	motionTaskHandle = osThreadNew(motionTask_Handle, NULL, &motionTask_attributes);
+	osThreadDef(motionTask, motionTask_Handle, osPriorityRealtime, 0, 128);
+	motionTaskHandle = osThreadCreate(osThread(motionTask), NULL);
 
 	/* definition and creation of cmdParserTask */
-	const osThreadAttr_t cmdParserTask_attributes = {
-	  .name = "cmdParserTask",
-	  .priority = (osPriority_t)osPriorityRealtime,
-	  .stack_size = 128
-	};
-	cmdParserTaskHandle = osThreadNew(cmdParserTask_Handle, NULL, &cmdParserTask_attributes);
+	osThreadDef(cmdParserTask, cmdParserTask_Handle, osPriorityRealtime, 0, 128);
+	cmdParserTaskHandle = osThreadCreate(osThread(cmdParserTask), NULL);
 
 	/* definition and creation of tsenseTask */
-	const osThreadAttr_t tsenseTask_attributes = {
-	  .name = "tsenseTask",
-	  .priority = (osPriority_t)osPriorityLow,
-	  .stack_size = 128
-	};
-	tsenseTaskHandle = osThreadNew(tsenseTask_Handle, NULL, &tsenseTask_attributes);
+	osThreadDef(tsenseTask, tsenseTask_Handle, osPriorityLow, 0, 128);
+	tsenseTaskHandle = osThreadCreate(osThread(tsenseTask), NULL);
 
 	/* definition and creation of respondTask */
-	const osThreadAttr_t respondTask_attributes = {
-	  .name = "respondTask",
-	  .priority = (osPriority_t)osPriorityLow,
-	  .stack_size = 128
-	};
-	respondTaskHandle = osThreadNew(respondTask_Handle, NULL, &respondTask_attributes);
+	osThreadDef(respondTask, respondTask_Handle, osPriorityLow, 0, 128);
+	respondTaskHandle = osThreadCreate(osThread(respondTask), NULL);
 
 	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
@@ -188,7 +171,7 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
   /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void* argument)
+void StartDefaultTask(void const* argument)
 {
 
 
@@ -211,7 +194,7 @@ void StartDefaultTask(void* argument)
 * @retval None
 */
 /* USER CODE END Header_heaterTask_Handle */
-void heaterTask_Handle(void* argument)
+void heaterTask_Handle(void const* argument)
 {
 	/* USER CODE BEGIN heaterTask_Handle */
 	/* Infinite loop */
@@ -229,7 +212,7 @@ void heaterTask_Handle(void* argument)
 * @retval None
 */
 /* USER CODE END Header_motionTask_Handle */
-void motionTask_Handle(void* argument)
+void motionTask_Handle(void const* argument)
 {
 	/* USER CODE BEGIN motionTask_Handle */
 	/* Infinite loop */
@@ -247,7 +230,7 @@ void motionTask_Handle(void* argument)
 * @retval None
 */
 /* USER CODE END Header_cmdParserTask_Handle */
-void cmdParserTask_Handle(void* argument)
+void cmdParserTask_Handle(void const* argument)
 {
 	/* USER CODE BEGIN cmdParserTask_Handle */
 	/* Infinite loop */
@@ -265,7 +248,7 @@ void cmdParserTask_Handle(void* argument)
 * @retval None
 */
 /* USER CODE END Header_tsenseTask_Handle */
-void tsenseTask_Handle(void* argument)
+void tsenseTask_Handle(void const* argument)
 {
 	/* USER CODE BEGIN tsenseTask_Handle */
 	/* Infinite loop */
@@ -283,20 +266,21 @@ void tsenseTask_Handle(void* argument)
 * @retval None
 */
 /* USER CODE END Header_respondTask_Handle */
-void respondTask_Handle(void* argument)
+void respondTask_Handle(void const* argument)
 {
 	/* USER CODE BEGIN respondTask_Handle */
 	/* Infinite loop */
 	for (;;)
 	{
-		osDelay(1);
+		if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0) || HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_14) || HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_15))
+		{
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, GPIO_PIN_RESET);
+			uint8_t report[12] = { 2, 13,15 };
+			USBD_CUSTOM_HID_SendReport_FS(report, sizeof(report));
+		}
+		osDelay(1000);
 	}
 	/* USER CODE END respondTask_Handle */
 }
-
-/* Private application code --------------------------------------------------*/
-/* USER CODE BEGIN Application */
-
-/* USER CODE END Application */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

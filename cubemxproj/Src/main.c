@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under Ultimate Liberty license
@@ -21,14 +21,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
-#include "perif/adc.h"
-#include "perif/i2c.h"
-#include "perif/spi.h"
-#include "perif/tim.h"
-#include "perif/usart.h"
-#include "usb/usb_device.h"
-#include "perif/gpio.h"
-#include "hwConf.h"
+#include "adc.h"
+#include "i2c.h"
+#include "spi.h"
+#include "tim.h"
+#include "usart.h"
+#include "usb_device.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -55,14 +54,9 @@
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
-#ifdef __cplusplus
-extern "C"
-#endif
+
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-#ifdef __cplusplus
-extern "C"
-#endif
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -114,17 +108,9 @@ int main(void)
   MX_SPI3_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
-  HwConf* hardw = new HwConf();
+
   /* USER CODE END 2 */
-  __GPIOC_CLK_ENABLE();
-  GPIO_InitTypeDef GPIO_InitStructure;
 
-  GPIO_InitStructure.Pin = GPIO_PIN_0 | GPIO_PIN_14 | GPIO_PIN_15;
-
-  GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStructure.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
   /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init(); 
 
@@ -143,9 +129,7 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
-#ifdef __cplusplus
-extern "C"
-#endif
+
 /**
   * @brief System Clock Configuration
   * @retval None

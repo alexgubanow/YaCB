@@ -846,18 +846,6 @@
     <ClCompile Include="stm32f4xx_it.c">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os1.c">
-      <Filter>Source files\Device-specific files\FreeRTOS</Filter>
-    </ClCompile>
-    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.c">
-      <Filter>Source files\Device-specific files\FreeRTOS</Filter>
-    </ClCompile>
-    <ClInclude Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h">
-      <Filter>Header files\Device-specific files\FreeRTOS</Filter>
-    </ClInclude>
-    <ClInclude Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h">
-      <Filter>Header files\Device-specific files\FreeRTOS</Filter>
-    </ClInclude>
     <ClCompile Include="perif\adc.c">
       <Filter>Source files\perif</Filter>
     </ClCompile>
@@ -915,6 +903,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.c">
+      <Filter>Source files\Device-specific files\FreeRTOS</Filter>
+    </ClCompile>
+    <ClInclude Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.h">
+      <Filter>Header files\Device-specific files\FreeRTOS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmdParser.h">
