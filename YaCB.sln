@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libplanner", "libplanner\li
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libgcodeParser", "libgcodeParser\libgcodeParser.csproj", "{00D667F0-10AB-45F1-AA63-90C8DD2C1BD4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libusbTransport", "libusbTransport\libusbTransport.csproj", "{441413E4-3F74-4335-804C-FABBF5B70E63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libUsbTransport", "libusbTransport\libUsbTransport.csproj", "{441413E4-3F74-4335-804C-FABBF5B70E63}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hidTestTool", "hidTestTool\hidTestTool.csproj", "{66703F1B-6B3D-48FD-BA2D-05A78CA161E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlankCoreApp1", "BlankCoreApp1\BlankCoreApp1.csproj", "{3CA1D332-6A2F-47C8-8134-EE15841AD826}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,18 @@ Global
 		{66703F1B-6B3D-48FD-BA2D-05A78CA161E0}.Release|VisualGDB.ActiveCfg = Release|x86
 		{66703F1B-6B3D-48FD-BA2D-05A78CA161E0}.Release|x86.ActiveCfg = Release|x86
 		{66703F1B-6B3D-48FD-BA2D-05A78CA161E0}.Release|x86.Build.0 = Release|x86
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Debug|VisualGDB.ActiveCfg = Debug|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Debug|VisualGDB.Build.0 = Debug|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Debug|x86.Build.0 = Debug|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Release|VisualGDB.ActiveCfg = Release|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Release|VisualGDB.Build.0 = Release|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Release|x86.ActiveCfg = Release|Any CPU
+		{3CA1D332-6A2F-47C8-8134-EE15841AD826}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

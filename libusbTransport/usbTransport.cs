@@ -1,35 +1,57 @@
-﻿using System.Collections.Concurrent;
+﻿using Device.Net;
+#if (!LIBUSB)
+using Usb.Net.Windows;
+using Hid.Net.Windows;
+#else
+using Device.Net.LibUsb;
+#endif
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace libusbTransport
+namespace zeroxzeroh.libusbTransport
 {
     public class UsbTransport
     {
-        private ConcurrentQueue<byte[]> Cmds;
-        private int cmdTimeout = 100;
+        public ObservableCollection<UsbDevice> Devices { get;  set; }
+        private static readonly DebugLogger Logger = new DebugLogger();
+        private static readonly DebugTracer Tracer = new DebugTracer();
 
-        UsbTransport()
+        public UsbTransport()
         {
-            Cmds = new ConcurrentQueue<byte[]>();
+#if (LIBUSB)
+            LibUsbUsbDeviceFactory.Register(Logger, Tracer);
+#else
+            WindowsUsbDeviceFactory.Register(Logger, Tracer);
+            WindowsHidDeviceFactory.Register(Logger, Tracer);
+#endif
+            Devices = new ObservableCollection<UsbDevice>();
+            UpdateDeviceList();
         }
-
-        public void TxUSB()
+        public void UpdateDeviceList(int? vid = null, int? pid = null)
         {
-            Stopwatch sw = new Stopwatch();
-            while (true)
+            var DeviceListLocal = DeviceList.Local.GetHidDevices(vid, pid);
+            foreach (var dev in DeviceListLocal)
             {
-                sw.Restart();
-                while (Cmds.IsEmpty && sw.ElapsedMilliseconds < cmdTimeout) { }
-                if (Cmds.TryDequeue(out byte[] retValue))
+                try
                 {
-                    SendOverUSB(retValue);
+                    if (dev.GetManufacturer() == "0x0h")
+                    {
+                        Devices.Add(new UsbDevice(dev));
+                    }
+                }
+                catch (Exception)
+                {
                 }
             }
         }
-        private void SendOverUSB(byte[] cmd)
+        public void Connect(ref UsbDevice device)
         {
-            Cmds.Enqueue(cmd);
+            device.OpenDevice();
         }
     }
 }
